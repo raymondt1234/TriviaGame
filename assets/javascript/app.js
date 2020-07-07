@@ -3,14 +3,12 @@ let questions = [
         question: "A 1998 study suggests that which of the following explorers reached the North Pole?",
         answers: ["Roald Amundsen", "Robert E. Peary", "William Barents", "Adam Sound"],
         correctAnswer: "Robert E. Peary"
-
     },
     {
         question: "History students are taught about the \"the fall of Constantinople\" in 1453. to who did it fall?",
         answers: ["Christian crusaders", "Mongol hordes", "Ottoman Turks", "Romans"],
         correctAnswer: "Ottoman Turks"
     },
-
     {
         question: "Catherine the Great ruled what country?",
         answers: ["England", "France", "Germany", "Russia"],
@@ -103,5 +101,26 @@ let questions = [
     }
 ]
 
+function showQuestion(question) {
+    let questionDisplay = $("<h2>");
 
- 
+    questionDisplay.html(question.question);
+    $("#question").append(questionDisplay);
+
+    let answersButtons = $("<div>");
+    answersButtons.addClass("btn-group-vertical");
+
+    question.answers.forEach(function (answer) {
+        let button = $("<button>");
+        
+        button.addClass("btn btn-light");
+        button.html(answer);
+        
+        answersButtons.append(button);
+    });
+
+    $("#question").append(answersButtons);
+}
+$(document).ready(function () {
+    showQuestion(questions[18]);
+});
