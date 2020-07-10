@@ -220,6 +220,9 @@ function showQuestion(question) {
 
     $("#question").append(answersButtons);
 }
+let questionNum;
+
+showQuestion(questions[14]);
+
 $(document).ready(function () {
-    showQuestion(questions[18]);
 });
