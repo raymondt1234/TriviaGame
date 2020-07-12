@@ -24,7 +24,7 @@ let questions = [
         answers: [
             "England",
             "France",
-            "Germany", 
+            "Germany",
             "Russia"
         ],
         correctAnswer: "Russia"
@@ -218,11 +218,30 @@ function showQuestion(question) {
         answersButtons.append(button);
     });
 
-    $("#question").append(answersButtons);
+    $("#answers").append(answersButtons);
 }
-let questionNum;
+function startTimer() {
+        timer = setInterval(function () {
+            if (time < 10) {
+                if (time > 0) {
+                    $("#timer").html(`Time remaining: 0${time}`);
+                } else {
+                    $("#timer").html(`Time remaining: 00`);
+                }
+            } else {
+                $("#timer").html(`Time remaining: ${time}`);
+            }
+            time--;
+        }, 1000);
+}
 
-showQuestion(questions[14]);
+let timer;
+let questionNum = Math.floor(Math.random() * 20);
+let time = 30;
+
+
 
 $(document).ready(function () {
+    showQuestion(questions[questionNum]);
+    startTimer();
 });
