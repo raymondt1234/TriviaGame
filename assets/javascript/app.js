@@ -1,3 +1,4 @@
+
 let questions = [
     {
         question: "A 1998 study suggests that which of the following explorers reached the North Pole?",
@@ -207,7 +208,7 @@ function showQuestion(question) {
     $("#question").append(questionDisplay);
 
     let answersButtons = $("<div>");
-    answersButtons.addClass("btn-group-vertical");
+    answersButtons.addClass("btn-group-vertical container-fluid");
 
     question.answers.forEach(function (answer) {
         let button = $("<button>");
@@ -221,27 +222,29 @@ function showQuestion(question) {
     $("#answers").append(answersButtons);
 }
 function startTimer() {
-        timer = setInterval(function () {
-            if (time < 10) {
-                if (time > 0) {
-                    $("#timer").html(`Time remaining: 0${time}`);
-                } else {
-                    $("#timer").html(`Time remaining: 00`);
-                }
+    timer = setInterval(function () {
+        if (time < 10) {
+            if (time > 0) {
+                $("#timer").html(`<h2>Time remaining: 0${time}</h2>`);
             } else {
-                $("#timer").html(`Time remaining: ${time}`);
+                clearTimeout(timer);
+                $("#timer").html("<h2>Time remaining: 00</h2>");
+                $("#question").html("<h2>Times up...</h2>");
+                $("#answers").html("");
             }
-            time--;
-        }, 1000);
+        } else {
+            $("#timer").html(`<h2>Time remaining: ${time}</h2>`);
+        }
+        time--;
+    }, 1000);
 }
 
 let timer;
 let questionNum = Math.floor(Math.random() * 20);
-let time = 30;
-
+let time = 29;
 
 
 $(document).ready(function () {
-    showQuestion(questions[questionNum]);
     startTimer();
+    showQuestion(questions[questionNum]);
 });
