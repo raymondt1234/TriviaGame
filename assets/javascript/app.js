@@ -213,7 +213,7 @@ function showQuestion(question) {
     question.answers.forEach(function (answer) {
         let button = $("<button>");
 
-        button.addClass("btn btn-light");
+        button.addClass("answer btn btn-light");
         button.html(answer);
 
         answersButtons.append(button);
@@ -222,6 +222,7 @@ function showQuestion(question) {
     $("#answers").append(answersButtons);
 }
 function startTimer() {
+    clearTimeout(timer);
     timer = setInterval(function () {
         let timeStr = "";
         time--;
@@ -263,4 +264,12 @@ let questionNum = 0;
 $(document).ready(function () {
     startTimer();
     showQuestion(questions[questionNum]);
+    
+    $(document).on("click", ".answer", function() {
+        if ($(this).text() === questions[questionNum].correctAnswer) {
+            numCorrect++;
+        }
+        console.log(numCorrect);
+        nextQuestion();
+    });
 });
