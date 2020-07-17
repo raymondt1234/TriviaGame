@@ -231,8 +231,6 @@ function startTimer() {
             } else {
                 clearTimeout(timer);
                 timeStr = "00";
-                // $("#question").html("<h2>Times up...</h2>");
-                // $("#answers").html("");
                 nextQuestion();
             }
         } else {
@@ -246,8 +244,10 @@ function startTimer() {
 function nextQuestion(){
     $("#question").html("");
     $("#answers").html("");
+
     time = 30;
     questionNum++;
+    
     if (questionNum < 20) {
         startTimer();
         showQuestion(questions[questionNum]);
