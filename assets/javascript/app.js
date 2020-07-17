@@ -218,30 +218,46 @@ function showQuestion(question) {
 
         answersButtons.append(button);
     });
-
+    
     $("#answers").append(answersButtons);
 }
 function startTimer() {
     timer = setInterval(function () {
+        let timeStr = "";
+        time--;
         if (time < 10) {
             if (time > 0) {
-                $("#timer").html(`<h2>Time remaining: 0${time}</h2>`);
+                timeStr = "0" + time;
             } else {
                 clearTimeout(timer);
-                $("#timer").html("<h2>Time remaining: 00</h2>");
-                $("#question").html("<h2>Times up...</h2>");
-                $("#answers").html("");
+                timeStr = "00";
+                // $("#question").html("<h2>Times up...</h2>");
+                // $("#answers").html("");
+                nextQuestion();
             }
         } else {
-            $("#timer").html(`<h2>Time remaining: ${time}</h2>`);
+            timeStr = time;
         }
-        time--;
+        
+        $("#timer").html(`<h2>Time remaining: ${timeStr}</h2>`);
+        
     }, 1000);
+}
+function nextQuestion(){
+    $("#question").html("");
+    $("#answers").html("");
+    time = 30;
+    questionNum++;
+    if (questionNum < 20) {
+        startTimer();
+        showQuestion(questions[questionNum]);
+    }
 }
 
 let timer;
-let questionNum = Math.floor(Math.random() * 20);
-let time = 29;
+let time = 30;
+let numCorrect = 0;
+let questionNum = 0;
 
 
 $(document).ready(function () {
