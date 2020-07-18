@@ -218,37 +218,75 @@ function showQuestion(question) {
 
         answersButtons.append(button);
     });
-    
+
     $("#answers").append(answersButtons);
 }
 function startTimer() {
     clearTimeout(timer);
     timer = setInterval(function () {
         let timeStr = "";
-        time--;
         if (time < 10) {
             if (time > 0) {
                 timeStr = "0" + time;
+                $("#timer").html(`<h2>Time remaining: ${timeStr}</h2>`);
             } else {
-                clearTimeout(timer);
+                // clearTimeout(timer);
                 timeStr = "00";
-                nextQuestion();
+                $("#timer").html(`<h2>Time remaining: ${timeStr}</h2>`);
+                showCorrectAnswer(false);
             }
         } else {
             timeStr = time;
+            $("#timer").html(`<h2>Time remaining: ${timeStr}</h2>`);
         }
         
-        $("#timer").html(`<h2>Time remaining: ${timeStr}</h2>`);
-        
+        time--;
+
     }, 1000);
 }
-function nextQuestion(){
+function showCorrectAnswer(isCorrect) {
+    let answer = questions[questionNum].correctAnswer;
+    let localTimer = 3;
+    let countdown;
+
+    $("#timer").html("");
+    clearTimeout(timer);
+
+
+    $("#question").html("");
+
+    if (isCorrect) {
+        $("#answers").html(`<h2>Correct! the answer is ${answer}</h2>`);
+    } else {
+        $("#answers").html(`<h2>Wrong... the correct answer is ${answer}</h2>`);
+    }
+
+    countdown = setInterval(function () {
+        let timeStr = "";
+
+        if (localTimer > 0) {
+            timeStr = "0" + localTimer;
+            $("#timer").html(`<h2>Time until next question: ${timeStr}</h2>`);
+        } else {
+            clearTimeout(countdown);
+            timeStr = "00";
+            $("#timer").html(`<h2>Time until next question: ${timeStr}</h2>`);
+            nextQuestion();
+        }
+        
+        localTimer--
+
+    }, 1000);
+
+    
+}
+function nextQuestion() {
     $("#question").html("");
     $("#answers").html("");
 
     time = 30;
     questionNum++;
-    
+
     if (questionNum < 20) {
         startTimer();
         showQuestion(questions[questionNum]);
@@ -264,12 +302,17 @@ let questionNum = 0;
 $(document).ready(function () {
     startTimer();
     showQuestion(questions[questionNum]);
-    
-    $(document).on("click", ".answer", function() {
+
+    $(document).on("click", ".answer", function () {
+        let isCorrect = false;
+
+        $("#question").html("");
+
         if ($(this).text() === questions[questionNum].correctAnswer) {
             numCorrect++;
+            isCorrect = true;
         }
-        console.log(numCorrect);
-        nextQuestion();
+
+        showCorrectAnswer(isCorrect);
     });
 });
